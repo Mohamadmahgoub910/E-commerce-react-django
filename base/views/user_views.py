@@ -7,7 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 # password
 from django.contrib.auth.hashers import make_password
-from rest_framework import status
+from rest_framework import serializers, status
 # make simpl jwt
 
 
@@ -71,8 +71,33 @@ def getUserProfile(request):
     return Response(serializer.data)
 
 
-# users seen by Admin
+# Get user By ID
+@api_view(['Get'])
+@permission_classes([IsAdminUser])
+def getUserById(request, pk):
+    user = User.objects.get(id=pk)
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
 
+
+# Update User for admin panel
+@api_view(['Get'])
+@permission_classes([IsAdminUser])
+def updateUser(request, pk):
+    user = User.objects.get(id=pk)
+
+    data = request.data
+
+    user.first_name = data['name']
+    user.user_name = data['email']
+    user.email = data['email']
+    user.is_staff = data['isAdmin']
+    user.save()
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
+
+
+# users seen by Admin
 @api_view(['Get'])
 @permission_classes([IsAdminUser])
 def getUsers(request):
