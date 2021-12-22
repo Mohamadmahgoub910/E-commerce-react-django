@@ -127,6 +127,22 @@ DATABASES = {
     }
 }
 
+# Postgres
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'coward_fund_djApp',
+#         'USER': 'postgres',
+#         'PASSWORD': '123',
+#         'HOST': '127.0.0.1',
+#         'POST': '',
+#         'PORT': '5432'
+
+#     }
+# }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

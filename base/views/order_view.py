@@ -70,8 +70,7 @@ def addOrderItems(request):
 def getMyOrders(request):
     user = request.user
     orders = user.order_set.all()
-
-    serializer = OrderSerializer(orders, many=False)
+    serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
 
