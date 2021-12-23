@@ -81,19 +81,22 @@ def getUserById(request, pk):
 
 
 # Update User for admin panel
-@api_view(['Get'])
-@permission_classes([IsAdminUser])
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def updateUser(request, pk):
     user = User.objects.get(id=pk)
 
     data = request.data
 
     user.first_name = data['name']
-    user.user_name = data['email']
+    user.username = data['email']
     user.email = data['email']
     user.is_staff = data['isAdmin']
+
     user.save()
+
     serializer = UserSerializer(user, many=False)
+
     return Response(serializer.data)
 
 
