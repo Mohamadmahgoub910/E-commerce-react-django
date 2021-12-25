@@ -71,14 +71,13 @@ def deleteProduct(request, pk):
 
 # upload image on edit product
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def uploadImage(request):
     data = request.data
 
     product_id = data['product_id']
     product = Product.objects.get(_id=product_id)
 
-    productImage = request.FILES.get('image')
+    product.image = request.FILES.get('image')
     product.save()
 
-    return Response('Image was uploaded!')
+    return Response('Image was uploaded')
