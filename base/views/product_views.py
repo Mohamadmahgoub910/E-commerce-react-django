@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from base.models import Product
 from base.serializers import ProductSerializer
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 # password
 
 
@@ -67,3 +67,18 @@ def deleteProduct(request, pk):
     product = Product.objects.get(_id=pk)
     product.delete()
     return Response('Product Deleted Success !')
+
+
+# upload image on edit product
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def uploadImage(request):
+    data = request.data
+
+    product_id = data['product_id']
+    product = Product.objects.get(_id=product_id)
+
+    productImage = request.FILES.get('image')
+    product.save()
+
+    return Response('Image was uploaded!')
