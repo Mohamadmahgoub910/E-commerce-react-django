@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from base.models import Product, Review
@@ -10,7 +10,12 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 # Products
 @api_view(['Get'])
 def getProducts(request):
-    products = Product.objects.all()
+    query = request.query_params.get('keyword')
+    print('query:', query)
+    if query == None:
+        query = ''
+    # products = Product.objects.all()
+    products = Product.objects.filter(name__icontains=query)
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
